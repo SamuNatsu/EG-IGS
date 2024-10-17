@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="charset" content="utf-8" />
+    <title>IGS Test Demo</title>
+  </head>
+  <body>
+    <form id="search" style="display: flex; gap: 1rem; align-items: center">
+      <label for="model">
+        <strong>Model</strong>
+        <select id="model">
+          <option value="qwen-turbo">Qwen-Turbo</option>
+          <option value="qwen-plus">Qwen-Plus</option>
+          <option value="gpt-3.5">GPT-3.5</optoin>
+        </select>
+      </label>
+      <label for="method">
+        <strong>Method</strong>
+        <select id="method">
+          <option value="brute-force">Brute Force</option>
+          <option value="state-of-the-art">State-of-the-Art</option>
+          <option value="ts-igs">TS-IGS</option>
+          <option value="eg-igs">EG-IGS</option>
+        </select>
+      </label>
+      <label for="link">
+        <strong>Link</strong>
+        <input id="link" type="url" />
+      </label>
+      <button type="submit">Search</button>
+    </form>
+    <hr />
+    <div id="result"></div>
+    <script src="/scripts.js"></script>
+  </body>
+</html>
