@@ -2,7 +2,8 @@ import dotenv
 import os
 
 from .IGS import IGS
-from .IGS.IGS_brute_force import IGSBruteForce
+from .IGS.brute_force import IGSBruteForce
+from .IGS.state_of_the_art import IGSStateOfTheArt
 
 from .oracles import Oracle
 from .oracles.qwen import QwenOracle
@@ -30,5 +31,6 @@ SUPPORTED_MODELS: dict[str, Callable[[], Oracle]] = {
 
 # Supported methods
 SUPPORTED_METHODS: dict[str, Callable[[], IGS]] = {
-  "brute-force": lambda: IGSBruteForce()
+  "brute-force": lambda: IGSBruteForce(),
+  "state-of-the-art": lambda: IGSStateOfTheArt()
 }

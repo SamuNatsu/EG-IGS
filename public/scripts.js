@@ -51,6 +51,8 @@ document.querySelector('#search').addEventListener('submit', function (ev) {
       )}</p>`
     );
     rEl.append(el);
+
+    sse.close();
   });
   sse.addEventListener('err', (ev) => {
     const err = JSON.parse(ev.data);
@@ -61,10 +63,11 @@ document.querySelector('#search').addEventListener('submit', function (ev) {
 
     sse.close();
   });
-  sse.addEventListener('end', () => {
-    sse.close();
-  });
   sse.addEventListener('error', () => {
+    rEl.append(htmlToNode('<hr />'));
+    const el = htmlToNode('<p style="color: red">SSE error</p>');
+    rEl.append(el);
+
     sse.close();
   });
 });
