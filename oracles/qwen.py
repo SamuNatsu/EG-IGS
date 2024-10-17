@@ -1,9 +1,8 @@
 import asyncio
-import functools
 import logging
 
 from . import Oracle
-from dashscope import Generation
+from dashscope.aigc.generation import AioGeneration
 from dashscope.api_entities.dashscope_response import GenerationResponse
 from typing import Self
 
@@ -18,34 +17,31 @@ class QwenOracle(Oracle):
     self.model = model
 
   async def ask(self: Self, entity: str, concept: str) -> tuple[bool, str]:
+    logger.info(f"[QwenOracle:{self.model}] Ask: concept={concept}")
+
     if concept == "root":
       return (True, "")
 
     msg: str = (
       f"{entity}. Based on the description above, is it an item in category {concept}? Please start with \"Yes\" or \"No\" to answer the question, then follows your reason."
     )
+    failed: int = 0
     while True:
       try:
-        response: GenerationResponse = await (
-          asyncio.get_running_loop().run_in_executor(
-            None,
-            functools.partial(
-              Generation.call,
-              api_key=self.api_key,
-              model=self.model,
-              messages=[
-                {
-                  "role": "system",
-                  "content": "You are a helpful assistant. You should respond to the user in English."
-                },
-                {
-                  "role": "user",
-                  "content": msg
-                }
-              ],
-              result_format="message"
-            )
-          )
+        response: GenerationResponse = await AioGeneration.call(
+          api_key=self.api_key,
+          model=self.model,
+          messages=[
+            {
+              "role": "system",
+              "content": "You are a helpful assistant. You should respond to the user in English."
+            },
+            {
+              "role": "user",
+              "content": msg
+            }
+          ],
+          result_format="message"
         )
 
         if response.status_code != 200:
@@ -57,6 +53,9 @@ class QwenOracle(Oracle):
         break
       except Exception as e:
         logger.error(e)
+        failed += 1
+        if failed > 5:
+          raise Exception("Fail to retry asking")
         await asyncio.sleep(1)
 
     reply: str = response.output.choices[0].message.content
