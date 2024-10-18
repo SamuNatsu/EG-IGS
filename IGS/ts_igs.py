@@ -18,21 +18,33 @@ async def _ts_binary_search(
   oracle: Oracle,
   entity: str
 ) -> AsyncGenerator[NodeFound | NodeNotFound, None]:
+  i: int = 1
+  flag: bool = False
   while left < right:
-    mid: int = (left + right) >> 1
-    u: Node = H_TREE.parent(path[mid])
-    concept: str = path[mid].replace(f"{u.identifier}-", "")
+    if right - left == 1:
+      break
 
-    result, msg = await oracle.ask(entity, path[mid])
-    msg = msg.replace(path[mid], concept)
+    nxt: int = min(left + (1 << i) - 1, right - 1)
+    if nxt == right - 1:
+      flag = True
+
+    u: Node = H_TREE.parent(path[nxt])
+    concept: str = path[nxt].replace(f"{u.identifier}-", "")
+
+    result, msg = await oracle.ask(entity, path[nxt])
+    msg = msg.replace(path[nxt], concept)
     yield (False, { "result": result, "msg": msg })
 
     if result:
-      left = mid + 1
+      i += 1
+      if flag:
+        left = nxt
     else:
-      right = mid
+      right = nxt
+      left += (1 << (i - 1)) - 1
+      i = 1
 
-  yield (True, path[left - 1])
+  yield (True, path[left])
 
 async def _find_next(
   u: str,
@@ -73,7 +85,7 @@ class TSIGS(IGS):
         )
         break
 
-      async for result in _ts_binary_search(pth, 1, len(pth), oracle, entity):
+      async for result in _ts_binary_search(pth, 0, len(pth), oracle, entity):
         if result[0]: # If binary found
           # Find next YES child
           flag: bool = False
