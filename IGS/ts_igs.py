@@ -11,7 +11,7 @@ type NodeFound = tuple[Literal[True], str]
 type NodeNotFound = tuple[Literal[False], dict[str, Any]]
 
 # Utils
-async def _binary_search(
+async def _ts_binary_search(
   path: list[str],
   left: int,
   right: int,
@@ -54,7 +54,7 @@ async def _find_next(
       break
 
 # Oracle
-class IGSStateOfTheArt(IGS):
+class TSIGS(IGS):
   async def search(self: Self, oracle: Oracle, entity: str) -> AsyncGenerator[str, None]:
     yield create_sse_msg("desc", entity)
 
@@ -73,7 +73,7 @@ class IGSStateOfTheArt(IGS):
         )
         break
 
-      async for result in _binary_search(pth, 1, len(pth), oracle, entity):
+      async for result in _ts_binary_search(pth, 1, len(pth), oracle, entity):
         if result[0]: # If binary found
           # Find next YES child
           flag: bool = False

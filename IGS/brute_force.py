@@ -11,7 +11,6 @@ class IGSBruteForce(IGS):
     yield create_sse_msg("desc", entity)
 
     u: str = H_TREE.root
-    cost: int = 0
     while True:
       children: list[Node] = H_TREE.children(u)
       found: bool = False
@@ -21,8 +20,8 @@ class IGSBruteForce(IGS):
         else:
           concept: str = v.identifier.replace(f"{u}-", "")
 
-        result, msg = await oracle.ask(entity, concept)
-        cost += 1
+        result, msg = await oracle.ask(entity, v.identifier)
+        msg = msg.replace(v.identifier, concept)
         yield create_sse_msg("msg", { "result": result, "msg": msg })
 
         if result:
@@ -31,5 +30,8 @@ class IGSBruteForce(IGS):
           break
 
       if not found:
-        yield create_sse_msg("result", { "cost": cost, "target": u })
+        yield create_sse_msg(
+          "result",
+          { "cost": oracle.get_total_cost(), "target": u }
+        )
         return

@@ -15,9 +15,11 @@ class QwenOracle(Oracle):
   def __init__(self: Self, *, api_key: str, model: str):
     self.api_key = api_key
     self.model = model
+    self.cost = 0
 
   async def ask(self: Self, entity: str, concept: str) -> tuple[bool, str]:
     logger.info(f"[QwenOracle:{self.model}] Ask: concept={concept}")
+    self.cost += 1
 
     if concept == "root":
       return (True, "")
@@ -63,3 +65,6 @@ class QwenOracle(Oracle):
       reply.find("Yes") >= 0,
       f"Is it an item in category {concept}?\n{reply}"
     )
+  
+  def get_total_cost(self: Self):
+    return self.cost

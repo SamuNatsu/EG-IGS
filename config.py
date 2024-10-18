@@ -4,9 +4,11 @@ import os
 from .IGS import IGS
 from .IGS.brute_force import IGSBruteForce
 from .IGS.state_of_the_art import IGSStateOfTheArt
+from .IGS.ts_igs import TSIGS
 
 from .oracles import Oracle
 from .oracles.qwen import QwenOracle
+from .oracles.chat_gpt import ChatGPTOracle
 
 from typing import Callable
 
@@ -26,11 +28,18 @@ SUPPORTED_MODELS: dict[str, Callable[[], Oracle]] = {
       api_key=os.getenv("QWEN_API_KEY"),
       model="qwen-plus"
     )
-  )
+  ),
+  "gpt-3.5": {
+    lambda: ChatGPTOracle(
+      api_key=os.getenv("CHAT_GPT_API_KEY"),
+      model="gpt-3.5-turbo"
+    )
+  }
 }
 
 # Supported methods
 SUPPORTED_METHODS: dict[str, Callable[[], IGS]] = {
   "brute-force": lambda: IGSBruteForce(),
-  "state-of-the-art": lambda: IGSStateOfTheArt()
+  "state-of-the-art": lambda: IGSStateOfTheArt(),
+  "ts-igs": lambda: TSIGS()
 }
