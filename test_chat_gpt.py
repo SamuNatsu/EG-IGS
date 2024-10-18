@@ -15,7 +15,7 @@ CONCEPT: str = "appliances"
 # Async entry
 async def main():
   oracle: ChatGPTOracle = ChatGPTOracle(
-    api_key=os.getenv("QWEN_API_KEY"),
+    api_key=os.getenv("OPENAI_API_KEY"),
     model="gpt-3.5-turbo"
   )
 
