@@ -1,6 +1,4 @@
-import logging
-
-from .IGS import IGS
+from .igs import IGS
 from .config import SUPPORTED_METHODS, SUPPORTED_MODELS
 from .oracles import Oracle
 from .utils.amazon import fetch_desc
@@ -9,6 +7,7 @@ from .utils.message import create_sse_msg
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import StreamingResponse
+from pathlib import Path
 from typing import Generator
 
 
@@ -43,4 +42,7 @@ async def start_IGS(model: str, method: str, link: str) -> StreamingResponse:
     media_type="text/event-stream"
   )
 
-app.mount("/", StaticFiles(directory="./public", html=True))
+app.mount(
+  "/",
+  StaticFiles(directory=Path(__file__).parent / "public", html=True)
+)

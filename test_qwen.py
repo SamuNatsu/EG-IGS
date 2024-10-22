@@ -2,7 +2,7 @@ import asyncio
 import dotenv
 import os
 
-from oracles.qwen import QwenOracle
+from app.oracles.qwen import QwenOracle
 
 
 # Load dotenv
@@ -11,6 +11,7 @@ dotenv.load_dotenv()
 # Constants
 ENTITY: str = "It's a cat"
 CONCEPT: str = "appliances"
+CONCEPTS: list[str] = ["animal", "mammal", "virus", "plants"]
 
 # Async entry
 async def main():
@@ -20,6 +21,7 @@ async def main():
   )
 
   print(await oracle.ask(ENTITY, CONCEPT))
+  print(await oracle.multi_ask(ENTITY, CONCEPTS))
 
 # Main entry
 if __name__ == '__main__':

@@ -2,7 +2,7 @@ import asyncio
 import dotenv
 import os
 
-from oracles.chat_gpt import ChatGPTOracle
+from app.oracles.chat_gpt import ChatGPTOracle
 
 
 # Load dotenv

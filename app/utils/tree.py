@@ -1,3 +1,5 @@
+import os
+
 from ..oracles import Oracle
 
 from treelib import Node, Tree
@@ -5,8 +7,8 @@ from typing import Any, AsyncGenerator, Literal
 
 
 # Types
-type Finished = tuple[Literal[True], Node | None]
-type NotFinished = tuple[Literal[True], dict[str, Any]]
+type Finished    = tuple[Literal[True], Node | None]
+type NotFinished = tuple[Literal[False], dict[str, Any]]
 
 # Functions
 def decompose(t: Tree) -> Tree:
@@ -103,6 +105,42 @@ async def target_sensitive_binary_search(
   oracle: Oracle,
   entity: str
 ) -> AsyncGenerator[Finished | NotFinished, None]:
+  i: int = 1
+  flag: bool = False
+  while left < right:
+    if right - left == 1:
+      break
+
+    nxt: int = min(left + (1 << i) - 1, right - 1)
+    if nxt == right - 1:
+      flag = True
+
+    result, msg = await oracle.ask(entity, path[nxt])
+    yield (False, { "result": result, "msg": msg })
+
+    if result:
+      i += 1
+      if flag:
+        left = nxt
+    else:
+      right = nxt
+      left += (1 << (i - 1)) - 1
+      i = 1
+      flag = False
+
+  yield (True, t.get_node(path[left]))
+
+async def target_sensitive_binary_search_ex(
+  t: Tree,
+  path: list[str],
+  left: int,
+  right: int,
+  oracle: Oracle,
+  entity: str
+) -> AsyncGenerator[Finished | NotFinished, None]:
+  # TODO
+  batch: int = int(os.getenv("TARGET_SENSITIVE_BATCH"))
+
   i: int = 1
   flag: bool = False
   while left < right:

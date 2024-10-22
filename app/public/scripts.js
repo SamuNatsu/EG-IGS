@@ -35,7 +35,7 @@ document.querySelector('#search').addEventListener('submit', function (ev) {
 
     const el = htmlToNode(
       `<details><summary style="color:${
-        result ? 'green' : 'red'
+        typeof result === 'boolean' ? (result ? 'green' : 'red') : 'orange'
       }">${q}</summary>${a}</details>`
     );
     rEl.append(el);

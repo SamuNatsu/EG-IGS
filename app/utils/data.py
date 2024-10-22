@@ -1,7 +1,7 @@
 import nltk
 import spacy
 
-from ..IGS import E_MAP
+from ..igs import E_MAP
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from pathlib import Path

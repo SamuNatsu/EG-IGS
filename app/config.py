@@ -1,11 +1,12 @@
 import dotenv
 import os
 
-from .IGS import IGS
-from .IGS.brute_force import IGSBruteForce
-from .IGS.state_of_the_art import IGSStateOfTheArt
-from .IGS.ts_igs import TSIGS
-from .IGS.eg_igs import EGIGS
+from .igs import IGS
+from .igs.brute_force import IGSBruteForce
+from .igs.state_of_the_art import IGSStateOfTheArt
+from .igs.ts_igs import TSIGS
+from .igs.eg_igs import EGIGS
+from .igs.eg_igs_optimzed import EGIGSOptimized
 
 from .oracles import Oracle
 from .oracles.qwen import QwenOracle
@@ -56,5 +57,6 @@ SUPPORTED_METHODS: dict[str, Callable[[], IGS]] = {
   "brute-force": lambda: IGSBruteForce(),
   "state-of-the-art": lambda: IGSStateOfTheArt(),
   "ts-igs": lambda: TSIGS(),
-  "eg-igs": lambda: EGIGS()
+  "eg-igs": lambda: EGIGS(),
+  "eg-igs-opt": lambda: EGIGSOptimized()
 }

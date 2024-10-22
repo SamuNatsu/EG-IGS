@@ -9,8 +9,13 @@ from typing import AsyncGenerator, Self
 
 # IGS
 class IGSBruteForce(IGS):
-  def __init__(self: Self, *, as_module: bool = False, hierarchy: Tree = None):
-    self.as_module = as_module
+  def __init__(
+    self: Self,
+    *,
+    as_module: bool | None = False,
+    hierarchy: Tree | None = None
+  ):
+    self.as_module = as_module or False
     self.hierarchy = hierarchy or H_TREE
     self.target = None
 
@@ -42,4 +47,3 @@ class IGSBruteForce(IGS):
         "result",
         { "cost": oracle.get_total_cost(), "target": u.identifier }
       )
-
