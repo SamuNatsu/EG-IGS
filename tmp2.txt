@@ -1,0 +1,156 @@
+root
+├── Appliances-Parts & Accessories-Refrigerator Parts & Accessories-Doors
+├── Automotive
+│   ├── Automotive-Exterior Accessories-Truck Bed & Tailgate Accessories-Cargo Nets & Tailgate Nets
+│   ├── Automotive-Lights & Lighting Accessories-Lighting Assemblies & Accessories-Signal Light Assemblies-Back Up Light Assemblies
+│   └── Automotive-Replacement Parts-Switches & Relays-Switches-Seat
+├── Books
+│   ├── Books-Business & Money-Skills-Time Management
+│   ├── Books-Health, Fitness & Dieting-Diseases & Physical Ailments-Rheumatic Diseases
+│   └── Books-Religion & Spirituality-Earth-Based Religions-Celtic
+├── Clothing, Shoes & Jewelry-Novelty, Costumes & More-Work Wear & Uniforms-Shoes-Women-Uniform Dress Shoes
+├── Electronics-Camera & Photo-Bags & Cases-Binocular Cases
+├── Health & Personal Care-Personal Care-Feminine Care-Feminine Powders
+├── Home & Kitchen-Kitchen & Dining-Bakeware-Cake Pans-Square & Rectangular
+├── Kindle Store-Kindle eBooks
+│   ├── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine
+│   │   ├── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine-Drinks & Beverages-Coffee & Tea
+│   │   └── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine-Gastronomy-History
+│   ├── Kindle Store-Kindle eBooks-Health, Fitness & Dieting-Recovery-Drug Dependency
+│   └── Kindle Store-Kindle eBooks-Science & Math-Chemistry-Crystallography
+├── Magazine Subscriptions-Women's Interest-Self-Improvement
+├── Office Products-Office & School Supplies-Filing Products-File & Folder Accessories-File Jackets & File Pockets-End Tab Jackets & Pockets
+└── Sports & Outdoors
+    ├── Sports & Outdoors-Exercise & Fitness-Accessories-Step Platforms
+    ├── Sports & Outdoors-Fan Shop-Clothing-Polo Shirts
+    └── Sports & Outdoors-Outdoor Gear-Camping & Hiking-Camp Kitchen-Dishes & Utensils-Plates
+root
+├── Appliances-Parts & Accessories-Refrigerator Parts & Accessories-Doors
+├── Automotive
+│   ├── Automotive-Exterior Accessories-Truck Bed & Tailgate Accessories-Cargo Nets & Tailgate Nets
+│   ├── Automotive-Lights & Lighting Accessories-Lighting Assemblies & Accessories-Signal Light Assemblies-Back Up Light Assemblies
+│   └── Automotive-Replacement Parts-Switches & Relays-Switches-Seat
+├── Books
+│   ├── Books-Business & Money-Skills-Time Management
+│   ├── Books-Health, Fitness & Dieting-Diseases & Physical Ailments-Rheumatic Diseases
+│   └── Books-Religion & Spirituality-Earth-Based Religions-Celtic
+├── Clothing, Shoes & Jewelry-Novelty, Costumes & More-Work Wear & Uniforms-Shoes-Women-Uniform Dress Shoes
+├── Electronics-Camera & Photo-Bags & Cases-Binocular Cases
+├── Health & Personal Care-Personal Care-Feminine Care-Feminine Powders
+├── Home & Kitchen-Kitchen & Dining-Bakeware-Cake Pans-Square & Rectangular
+├── Kindle Store-Kindle eBooks
+│   ├── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine
+│   │   ├── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine-Drinks & Beverages-Coffee & Tea
+│   │   └── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine-Gastronomy-History
+│   ├── Kindle Store-Kindle eBooks-Health, Fitness & Dieting-Recovery-Drug Dependency
+│   └── Kindle Store-Kindle eBooks-Science & Math-Chemistry-Crystallography
+├── Magazine Subscriptions-Women's Interest-Self-Improvement
+├── Office Products-Office & School Supplies-Filing Products-File & Folder Accessories-File Jackets & File Pockets-End Tab Jackets & Pockets
+└── Sports & Outdoors
+    ├── Sports & Outdoors-Exercise & Fitness-Accessories-Step Platforms
+    ├── Sports & Outdoors-Fan Shop-Clothing-Polo Shirts
+    └── Sports & Outdoors-Outdoor Gear-Camping & Hiking-Camp Kitchen-Dishes & Utensils-Plates
+root
+├── Appliances-Parts & Accessories-Refrigerator Parts & Accessories-Doors
+├── Automotive
+│   ├── Automotive-Exterior Accessories-Truck Bed & Tailgate Accessories-Cargo Nets & Tailgate Nets
+│   ├── Automotive-Lights & Lighting Accessories-Lighting Assemblies & Accessories-Signal Light Assemblies-Back Up Light Assemblies
+│   └── Automotive-Replacement Parts-Switches & Relays-Switches-Seat
+├── Books
+│   ├── Books-Business & Money-Skills-Time Management
+│   ├── Books-Health, Fitness & Dieting-Diseases & Physical Ailments-Rheumatic Diseases
+│   └── Books-Religion & Spirituality-Earth-Based Religions-Celtic
+├── Clothing, Shoes & Jewelry-Novelty, Costumes & More-Work Wear & Uniforms-Shoes-Women-Uniform Dress Shoes
+├── Electronics-Camera & Photo-Bags & Cases-Binocular Cases
+├── Health & Personal Care-Personal Care-Feminine Care-Feminine Powders
+├── Home & Kitchen-Kitchen & Dining-Bakeware-Cake Pans-Square & Rectangular
+├── Kindle Store-Kindle eBooks
+│   ├── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine
+│   │   ├── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine-Drinks & Beverages-Coffee & Tea
+│   │   └── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine-Gastronomy-History
+│   ├── Kindle Store-Kindle eBooks-Health, Fitness & Dieting-Recovery-Drug Dependency
+│   └── Kindle Store-Kindle eBooks-Science & Math-Chemistry-Crystallography
+├── Magazine Subscriptions-Women's Interest-Self-Improvement
+├── Office Products-Office & School Supplies-Filing Products-File & Folder Accessories-File Jackets & File Pockets-End Tab Jackets & Pockets
+└── Sports & Outdoors
+    ├── Sports & Outdoors-Exercise & Fitness-Accessories-Step Platforms
+    ├── Sports & Outdoors-Fan Shop-Clothing-Polo Shirts
+    └── Sports & Outdoors-Outdoor Gear-Camping & Hiking-Camp Kitchen-Dishes & Utensils-Plates
+root
+├── Appliances-Parts & Accessories-Refrigerator Parts & Accessories-Doors
+├── Automotive
+│   ├── Automotive-Exterior Accessories-Truck Bed & Tailgate Accessories-Cargo Nets & Tailgate Nets
+│   ├── Automotive-Lights & Lighting Accessories-Lighting Assemblies & Accessories-Signal Light Assemblies-Back Up Light Assemblies
+│   └── Automotive-Replacement Parts-Switches & Relays-Switches-Seat
+├── Books
+│   ├── Books-Business & Money-Skills-Time Management
+│   ├── Books-Health, Fitness & Dieting-Diseases & Physical Ailments-Rheumatic Diseases
+│   └── Books-Religion & Spirituality-Earth-Based Religions-Celtic
+├── Clothing, Shoes & Jewelry-Novelty, Costumes & More-Work Wear & Uniforms-Shoes-Women-Uniform Dress Shoes
+├── Electronics-Camera & Photo-Bags & Cases-Binocular Cases
+├── Health & Personal Care-Personal Care-Feminine Care-Feminine Powders
+├── Home & Kitchen-Kitchen & Dining-Bakeware-Cake Pans-Square & Rectangular
+├── Kindle Store-Kindle eBooks
+│   ├── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine
+│   │   ├── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine-Drinks & Beverages-Coffee & Tea
+│   │   └── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine-Gastronomy-History
+│   ├── Kindle Store-Kindle eBooks-Health, Fitness & Dieting-Recovery-Drug Dependency
+│   └── Kindle Store-Kindle eBooks-Science & Math-Chemistry-Crystallography
+├── Magazine Subscriptions-Women's Interest-Self-Improvement
+├── Office Products-Office & School Supplies-Filing Products-File & Folder Accessories-File Jackets & File Pockets-End Tab Jackets & Pockets
+└── Sports & Outdoors
+    ├── Sports & Outdoors-Exercise & Fitness-Accessories-Step Platforms
+    ├── Sports & Outdoors-Fan Shop-Clothing-Polo Shirts
+    └── Sports & Outdoors-Outdoor Gear-Camping & Hiking-Camp Kitchen-Dishes & Utensils-Plates
+root
+├── Appliances-Parts & Accessories-Refrigerator Parts & Accessories-Doors
+├── Automotive
+│   ├── Automotive-Exterior Accessories-Truck Bed & Tailgate Accessories-Cargo Nets & Tailgate Nets
+│   ├── Automotive-Lights & Lighting Accessories-Lighting Assemblies & Accessories-Signal Light Assemblies-Back Up Light Assemblies
+│   └── Automotive-Replacement Parts-Switches & Relays-Switches-Seat
+├── Books
+│   ├── Books-Business & Money-Skills-Time Management
+│   ├── Books-Health, Fitness & Dieting-Diseases & Physical Ailments-Rheumatic Diseases
+│   └── Books-Religion & Spirituality-Earth-Based Religions-Celtic
+├── Clothing, Shoes & Jewelry-Novelty, Costumes & More-Work Wear & Uniforms-Shoes-Women-Uniform Dress Shoes
+├── Electronics-Camera & Photo-Bags & Cases-Binocular Cases
+├── Health & Personal Care-Personal Care-Feminine Care-Feminine Powders
+├── Home & Kitchen-Kitchen & Dining-Bakeware-Cake Pans-Square & Rectangular
+├── Kindle Store-Kindle eBooks
+│   ├── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine
+│   │   ├── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine-Drinks & Beverages-Coffee & Tea
+│   │   └── Kindle Store-Kindle eBooks-Cookbooks, Food & Wine-Gastronomy-History
+│   ├── Kindle Store-Kindle eBooks-Health, Fitness & Dieting-Recovery-Drug Dependency
+│   └── Kindle Store-Kindle eBooks-Science & Math-Chemistry-Crystallography
+├── Magazine Subscriptions-Women's Interest-Self-Improvement
+├── Office Products-Office & School Supplies-Filing Products-File & Folder Accessories-File Jackets & File Pockets-End Tab Jackets & Pockets
+└── Sports & Outdoors
+    ├── Sports & Outdoors-Exercise & Fitness-Accessories-Step Platforms
+    ├── Sports & Outdoors-Fan Shop-Clothing-Polo Shirts
+    └── Sports & Outdoors-Outdoor Gear-Camping & Hiking-Camp Kitchen-Dishes & Utensils-Plates
+root
+├── Automotive
+│   ├── Automotive-Exterior Accessories-Truck Bed & Tailgate Accessories-Cargo Nets & Tailgate Nets
+│   ├── Automotive-Lights & Lighting Accessories-Lighting Assemblies & Accessories-Signal Light Assemblies-Back Up Light Assemblies
+│   └── Automotive-Replacement Parts-Shocks, Struts & Suspension-Sway Bars & Parts-Kits
+├── Books-Arts & Photography-Religious
+├── Clothing, Shoes & Jewelry
+│   ├── Clothing, Shoes & Jewelry-Boot Shop-Men-Outdoor & Work-Snow & Cold Weather
+│   ├── Clothing, Shoes & Jewelry-Girls
+│   │   ├── Clothing, Shoes & Jewelry-Girls-Clothing-Swim-Board Shorts
+│   │   └── Clothing, Shoes & Jewelry-Girls-Shoes-Sandals
+│   └── Clothing, Shoes & Jewelry-Men-Clothing-Active-Active Hoodies
+├── Electronics-Camera & Photo-Video-Camera Supports & Stabilizers-Camera Chest Supports
+├── Industrial & Scientific-Material Handling Products-Pulling & Lifting-Lift Magnets
+├── Office Products-Office & School Supplies-Education & Crafts-Classroom Science Supplies-Scale Accessories
+├── Pet Supplies-Small Animals-Feeding & Watering Supplies-Bowls
+├── Sports & Outdoors
+│   ├── Sports & Outdoors-Clothing-Boys-Pants-Compression Pants
+│   ├── Sports & Outdoors-Cycling-Clothing-Men-Gloves
+│   ├── Sports & Outdoors-Fan Shop-Clothing-Polo Shirts
+│   └── Sports & Outdoors-Outdoor Gear-Camping & Hiking-Camp Kitchen-Dishes & Utensils-Plates
+├── Tools & Home Improvement
+│   ├── Tools & Home Improvement-Building Supplies-Building Materials-Stair Parts-Handrails
+│   ├── Tools & Home Improvement-Power & Hand Tools-Power Tool Accessories-Vacuum & Dust Collector Accessories-Ducts
+│   └── Tools & Home Improvement-Safety & Security-Personal Protective Equipment-Protective Workwear-Controlled Environment Disposable Apparel
+└── Video Games-PlayStation Vita-Accessories-Skins

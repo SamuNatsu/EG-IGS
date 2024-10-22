@@ -3,7 +3,8 @@ import logging
 from .IGS import IGS
 from .config import SUPPORTED_METHODS, SUPPORTED_MODELS
 from .oracles import Oracle
-from .utils import create_sse_msg, fetch_amazon_description
+from .utils.amazon import fetch_desc
+from .utils.message import create_sse_msg
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -28,7 +29,7 @@ async def start_IGS(model: str, method: str, link: str) -> StreamingResponse:
     return StreamingResponse(not_support(), media_type="text/event-stream")
 
   # Try fetch description
-  desc: str | None = await fetch_amazon_description(link)
+  desc: str | None = await fetch_desc(link)
   if desc == None:
     def no_desc() -> Generator[str, None, None]:
       yield create_sse_msg("err", "Product has no description")

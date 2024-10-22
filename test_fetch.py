@@ -1,6 +1,6 @@
 import asyncio
 
-from utils import fetch_amazon_description
+from utils.amazon import fetch_desc
 
 
 # Constants
@@ -8,7 +8,7 @@ URL: str = "https://www.amazon.com/SHAPERX-Bodysuit-Shapewear-Sculpting-SZ5215-B
 
 # Async entry
 async def main():
-  print(await fetch_amazon_description(URL))
+  print(await fetch_desc(URL))
 
 # Main entry
 if __name__ == '__main__':

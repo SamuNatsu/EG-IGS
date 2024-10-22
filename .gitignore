@@ -6,3 +6,6 @@ __pycache__
 
 # Environment
 .env
+
+# Temporary
+nltk_data

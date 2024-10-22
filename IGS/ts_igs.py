@@ -1,8 +1,8 @@
 from . import IGS, H_TREE, P_TREE
 from ..oracles import Oracle
-from ..utils import create_sse_msg
+from ..utils.message import create_sse_msg
 
-from treelib import Node
+from treelib import Node, Tree
 from typing import Any, AsyncGenerator, Literal, Self
 
 
@@ -43,6 +43,7 @@ async def _ts_binary_search(
       right = nxt
       left += (1 << (i - 1)) - 1
       i = 1
+      flag = False
 
   yield (True, path[left])
 
@@ -65,14 +66,18 @@ async def _find_next(
       yield (True, v.identifier)
       break
 
-# Oracle
+# IGS
 class TSIGS(IGS):
+  def __init__(self: Self, *, hierarchy: Tree = None, path_tree: Tree = None):
+    self.hierarchy = hierarchy or H_TREE
+    self.path_tree = path_tree or P_TREE
+
   async def search(self: Self, oracle: Oracle, entity: str) -> AsyncGenerator[str, None]:
     yield create_sse_msg("desc", entity)
 
     # Get initial path
-    for v in P_TREE.all_nodes_itr():
-      if H_TREE.root in v.data:
+    for v in self.path_tree.all_nodes_itr():
+      if self.hierarchy.root in v.data:
         pth: list[str] = v.data
         break
 
@@ -92,7 +97,7 @@ class TSIGS(IGS):
           async for rnext in _find_next(result[1], pth, oracle, entity):
             if rnext[0]: # If child found
               # Update current path
-              for v in P_TREE.all_nodes_itr():
+              for v in self.path_tree.all_nodes_itr():
                 if rnext[1] in v.data:
                   pth = v.data
                   break

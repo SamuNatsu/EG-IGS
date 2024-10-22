@@ -9,6 +9,8 @@ dependencies = [
     "beautifulsoup4>=4.12.3",
     "dashscope>=1.20.11",
     "fastapi[standard]>=0.115.2",
+    "nltk>=3.9.1",
     "openai>=1.52.0",
+    "spacy>=3.8.2",
     "treelib>=1.7.0",
 ]

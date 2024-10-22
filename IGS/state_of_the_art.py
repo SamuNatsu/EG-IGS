@@ -1,6 +1,6 @@
 from . import IGS, H_TREE, P_TREE
 from ..oracles import Oracle
-from ..utils import create_sse_msg
+from ..utils.message import create_sse_msg
 
 from treelib import Node
 from typing import Any, AsyncGenerator, Literal, Self
@@ -53,7 +53,7 @@ async def _find_next(
       yield (True, v.identifier)
       break
 
-# Oracle
+# IGS
 class IGSStateOfTheArt(IGS):
   async def search(self: Self, oracle: Oracle, entity: str) -> AsyncGenerator[str, None]:
     yield create_sse_msg("desc", entity)

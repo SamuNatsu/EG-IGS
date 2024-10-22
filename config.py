@@ -5,6 +5,7 @@ from .IGS import IGS
 from .IGS.brute_force import IGSBruteForce
 from .IGS.state_of_the_art import IGSStateOfTheArt
 from .IGS.ts_igs import TSIGS
+from .IGS.eg_igs import EGIGS
 
 from .oracles import Oracle
 from .oracles.qwen import QwenOracle
@@ -54,5 +55,6 @@ SUPPORTED_MODELS: dict[str, Callable[[], Oracle]] = {
 SUPPORTED_METHODS: dict[str, Callable[[], IGS]] = {
   "brute-force": lambda: IGSBruteForce(),
   "state-of-the-art": lambda: IGSStateOfTheArt(),
-  "ts-igs": lambda: TSIGS()
+  "ts-igs": lambda: TSIGS(),
+  "eg-igs": lambda: EGIGS()
 }

@@ -1,21 +1,28 @@
 from . import IGS, H_TREE
 from ..oracles import Oracle
-from ..utils import create_sse_msg
+from ..utils.message import create_sse_msg
 
-from treelib import Node
+from treelib import Node, Tree
 from typing import AsyncGenerator, Self
 
 
+# IGS
 class IGSBruteForce(IGS):
-  async def search(self: Self, oracle: Oracle, entity: str) -> AsyncGenerator[str, None]:
-    yield create_sse_msg("desc", entity)
+  def __init__(self: Self, *, as_module: bool = False, hierarchy: Tree = None):
+    self.as_module = as_module
+    self.hierarchy = hierarchy or H_TREE
+    self.target = None
 
-    u: str = H_TREE.root
+  async def search(self: Self, oracle: Oracle, entity: str) -> AsyncGenerator[str, None]:
+    if not self.as_module:
+      yield create_sse_msg("desc", entity)
+
+    u: str = self.hierarchy.root
     while True:
-      children: list[Node] = H_TREE.children(u)
+      children: list[Node] = self.hierarchy.children(u)
       found: bool = False
       for v in children:
-        if u == H_TREE.root:
+        if u == self.hierarchy.root:
           concept: str = v.identifier
         else:
           concept: str = v.identifier.replace(f"{u}-", "")
@@ -30,8 +37,11 @@ class IGSBruteForce(IGS):
           break
 
       if not found:
-        yield create_sse_msg(
-          "result",
-          { "cost": oracle.get_total_cost(), "target": u }
-        )
+        if self.as_module:
+          self.target = u
+        else:
+          yield create_sse_msg(
+            "result",
+            { "cost": oracle.get_total_cost(), "target": u }
+          )
         return

@@ -1,16 +1,10 @@
-import pickle
-
 from treelib import Node, Tree
 
 
-# Constants
-DATASET: str = "amazon"
-T: Tree = pickle.load(open(f"./data/{DATASET}_hierarchy", "rb"))
-
-# Main entry
-if __name__ == '__main__':
+# Functions
+def decompose(t: Tree) -> Tree:
   p: Tree = Tree()
-  stk: list[str] = [T.root]
+  stk: list[str] = [t.root]
   acc: int = 1
   pth: list[str] = []
 
@@ -21,11 +15,11 @@ if __name__ == '__main__':
       pth.append(u)
 
     # Maintain path tree
-    if len(T.children(u)) == 0:
+    if len(t.children(u)) == 0:
       if len(p.nodes) == 0:
         p.create_node(identifier=acc, data=pth)
       else:
-        tmp: str = T.parent(pth[0]).identifier
+        tmp: str = t.parent(pth[0]).identifier
         for v in p.all_nodes_itr():
           if tmp in v.data:
             pnt: Node = v
@@ -38,19 +32,19 @@ if __name__ == '__main__':
     # Find heavy child
     mxs: int = 0
     mxn: str | None = None
-    for v in T.children(u):
-      sz: int = len(T.subtree(v.identifier))
+    for v in t.children(u):
+      sz: int = len(t.subtree(v.identifier))
       if mxs < sz:
         mxs = sz
         mxn = v.identifier
 
     # Maintain recursive stack
-    for v in T.children(u):
+    for v in t.children(u):
       if v.identifier != mxn:
         stk.append(v.identifier)
     stk.append(mxn)
     pth.append(mxn)
 
-  # Export decomposed path tree
-  p.save2file("ptree.txt")
-  pickle.dump(p, open(f"./{DATASET}_path_tree", "wb"))
+  return p
+
+
