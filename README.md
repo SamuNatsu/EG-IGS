@@ -23,6 +23,28 @@ DOI 10.1109/ICDE60146.2024.00033
 
 ## Usage
 
+### Environment Variables
+
+Some environment variables are quired, you can place a dotenv file in the repository directory
+
+#### QWEN_API_KEY
+
+If you want to use Qwen as an oracle, you should have this variable
+
+#### OPENAI_API_KEY
+
+If you want to use GPTs as an oracle, you should have this variable
+
+#### EG_IGS_TAU
+
+If you want to use EG-IGS, you should have this float variable ranges from 0 to 1 as the threshold of the similarity
+
+#### EG_IGS_K
+
+If you want to use EG-IGS, you should have this positive integer variable as the top-k similarity
+
+### Start up
+
 It uses FastAPI as web service, so it's simple to run the project:
 
 ```bash
