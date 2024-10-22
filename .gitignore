@@ -9,6 +9,7 @@ __pycache__
 
 # Temporary
 nltk_data
+tmp*.txt
 
 # Wheels
 *.whl
