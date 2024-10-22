@@ -6,7 +6,7 @@ from typing import AsyncGenerator, Self
 from treelib import Tree
 
 
-# Hierarchy tree
+# Preload data
 H_TREE: Tree = pickle.load(open("./data/amazon_hierarchy", "rb"))
 P_TREE: Tree = pickle.load(open("./data/amazon_path_tree", "rb"))
 E_MAP: dict[str, str] = pickle.load(open("./data/amazon_pre_mined", "rb"))
