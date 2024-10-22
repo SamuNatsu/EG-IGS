@@ -1,7 +1,7 @@
 [project]
 name = "eg-igs"
 version = "0.1.0"
-description = "Add your description here"
+description = "Reproduction demo for Example-Guided Interactive Graph Search"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

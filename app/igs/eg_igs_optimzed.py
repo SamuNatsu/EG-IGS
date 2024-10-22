@@ -13,7 +13,7 @@ from ..utils.tree import (
   decompose,
   find_next,
   get_promising_question_tree,
-  target_sensitive_binary_search
+  target_sensitive_binary_search_ex
 )
 
 from spacy.tokens.doc import Doc
@@ -73,7 +73,7 @@ async def compress_and_find(
     v_cap = p
   path = list(reversed(path))
 
-  async for res in target_sensitive_binary_search(pqt, path, 0, len(path), oracle, entity):
+  async for res in target_sensitive_binary_search_ex(pqt, path, 0, len(path), oracle, entity):
     if res[0]:
       yield (True, res[1])
       break
@@ -103,8 +103,6 @@ class EGIGSOptimized(IGS):
       if x > self.tau:
         similarity.append((x, k))
     similarity = sorted(similarity, key=lambda x: x[0], reverse=True)[:self.k]
-    for x in similarity:
-      print(x[0], x[1])
 
     # Get PQT
     pqt: Tree = get_promising_question_tree(H_TREE, similarity)
@@ -119,7 +117,6 @@ class EGIGSOptimized(IGS):
         yield create_sse_msg("msg", res[1])
 
     # Find in subtree
-    print("u", u.identifier)
     subtree: Tree = H_TREE.subtree(u.identifier)
     base: TSIGS = TSIGS(
       as_module=True,

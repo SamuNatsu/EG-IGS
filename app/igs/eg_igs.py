@@ -103,8 +103,6 @@ class EGIGS(IGS):
       if x > self.tau:
         similarity.append((x, k))
     similarity = sorted(similarity, key=lambda x: x[0], reverse=True)[:self.k]
-    for x in similarity:
-      print(x[0], x[1])
 
     # Get PQT
     pqt: Tree = get_promising_question_tree(H_TREE, similarity)
@@ -119,7 +117,6 @@ class EGIGS(IGS):
         yield create_sse_msg("msg", res[1])
 
     # Find in subtree
-    print("u", u.identifier)
     subtree: Tree = H_TREE.subtree(u.identifier)
     base: TSIGS = TSIGS(
       as_module=True,
