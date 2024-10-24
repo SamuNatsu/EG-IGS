@@ -4,9 +4,6 @@ from treelib import Node, Tree
 from typing import Any, Self
 
 
-def create_sse_msg(event: str, data: Any) -> str:
-  return f"event: {event}\ndata: {json.dumps(data)}\n\n"
-
 class MessageBuilder:
   def __init__(self: Self):
     self._event: str | None = None
@@ -26,13 +23,23 @@ class MessageBuilder:
     return self
 
   def path(self: Self, path: list[str]) -> Self:
-    self._content = ", ".join(path)
+    self._content = "<br/>".join(path)
     return self
 
   def children(self: Self, tree: Tree, parent: Node) -> Self:
     self._content = (
-      ", ".join(map(lambda x: x.identifier,tree.children(parent.identifier)))
+      "<br/>".join(map(lambda x: x.identifier,tree.children(parent.identifier)))
     )
+    return self
+  
+  def similarity(self: Self, similarity: list[tuple[float, str]]) -> Self:
+    self._content = (
+      "<br/>".join(map(lambda x: f"<b>{x[0]}</b> {x[1]}", similarity))
+    )
+    return self
+
+  def tree(self: Self, tree: Tree) -> Self:
+    self._content = "<pre>" + json.dumps(tree.to_dict(), indent=2) + "</pre>"
     return self
 
   def build(self: Self) -> str:

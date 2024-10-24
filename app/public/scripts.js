@@ -65,19 +65,18 @@ document.querySelector('#search').addEventListener('submit', function (ev) {
     sse.close();
   });
   sse.addEventListener('err', (ev) => {
-    const err = JSON.parse(ev.data);
-
-    rEl.append(htmlToNode('<hr />'));
-    const el = htmlToNode(`<p style="color: red">${err}</p>`);
-    rEl.append(el);
-
+    const { content } = JSON.parse(ev.data);
+    rEl.append(
+      htmlToNode('<hr />'),
+      htmlToNode(`<p style="color: red">${content}</p>`)
+    );
     sse.close();
   });
   sse.addEventListener('error', () => {
-    rEl.append(htmlToNode('<hr />'));
-    const el = htmlToNode('<p style="color: red">SSE error</p>');
-    rEl.append(el);
-
+    rEl.append(
+      htmlToNode('<hr />'),
+      htmlToNode('<p style="color: red">SSE error</p>')
+    );
     sse.close();
   });
 });

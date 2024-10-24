@@ -95,7 +95,7 @@ class QwenOracle(Oracle):
     self.cost += 1
 
     msg: str = (
-      f"{entity}. Based on the description above, is it an item in category {", ".join(ask)} respectively? Please output the answer of each category with a \"Yes\" or \"No\", split them with a line break."
+      f"{entity}. Based on the description above, is it an item in category {", ".join(map(lambda x: f"\"{x}\"", ask))} respectively? Please output the answer of each category with a \"Yes\" or \"No\", split them with a line break."
     )
     failed: int = 0
     while True:
@@ -134,7 +134,6 @@ class QwenOracle(Oracle):
     results: list[bool] = list(map(lambda x: x.find("Yes") >= 0, replies))
 
     for i in range(len(ask)):
-      self.cache[ask[i]] = results[i]
       ret[pos[i]] = results[i]
 
     return (

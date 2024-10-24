@@ -5,7 +5,7 @@ from .brute_force import BruteForceIGS
 from .ts_igs_optimized import TargetSensitiveIGSOptimized
 from ..oracles import Oracle
 from ..utils.data import DOC_MAP, NLP, get_list_of_words
-from ..utils.message import create_sse_msg
+from ..utils.message import MessageBuilder
 from ..utils.tree import (
   Finished,
   NotFinished,
@@ -29,6 +29,16 @@ async def compress_and_find(
 ) -> AsyncGenerator[Finished | NotFinished, None]:
   # Step 1
   cpqt: Tree = compress_promising_question_tree(pqt)
+  yield (
+    False,
+    {
+      "raw": MessageBuilder()
+        .event("dbg")
+        .title("Compressed promising question tree")
+        .tree(cpqt)
+        .build()
+    }
+  )
 
   # Step 2
   base: BruteForceIGS = BruteForceIGS(as_module=True, hierarchy=cpqt)
@@ -40,12 +50,32 @@ async def compress_and_find(
   if u_cap.is_leaf():
     yield (True, u_cap)
     return
+  yield (
+    False,
+    {
+      "raw": MessageBuilder()
+        .event("dbg")
+        .title("Found u-cap")
+        .data(u_cap.identifier)
+        .build()
+    }
+  )
 
   # Step 4
   children: list[Node] = sorted(
     pqt.children(u_cap.identifier),
     key=lambda x: x.data,
     reverse=True
+  )
+  yield (
+    False,
+    {
+      "raw": MessageBuilder()
+        .event("dbg")
+        .title("Find next")
+        .children(pqt, u_cap)
+        .build()
+    }
   )
   async for res in find_next(pqt, u_cap, oracle, entity, children=children):
     if res[0]:
@@ -73,6 +103,16 @@ async def compress_and_find(
     v_cap = p
   path = list(reversed(path))
 
+  yield (
+    False,
+    {
+      "raw": MessageBuilder()
+        .event("dbg")
+        .title("Target sensitive binary search")
+        .path(path)
+        .build()
+    }
+  )
   async for res in target_sensitive_binary_search_ex(pqt, path, 0, len(path), oracle, entity):
     if res[0]:
       yield (True, res[1])
@@ -81,7 +121,7 @@ async def compress_and_find(
       yield (False, res[1])
 
 # IGS
-class EGIGSOptimized(IGS):
+class ExampleGuidedIGSOptimized(IGS):
   def __init__(self) -> None:
     self.tau = float(os.getenv("EG_IGS_TAU"))
     self.k = int(os.getenv("EG_IGS_K"))
@@ -91,7 +131,7 @@ class EGIGSOptimized(IGS):
     oracle: Oracle,
     entity: str
   ) -> AsyncGenerator[str, None]:
-    yield create_sse_msg("desc", entity)
+    yield MessageBuilder().event("desc").data(entity).build()
 
     # Compute similarity
     desc: str = " ".join(get_list_of_words(entity))
@@ -103,9 +143,23 @@ class EGIGSOptimized(IGS):
       if x > self.tau:
         similarity.append((x, k))
     similarity = sorted(similarity, key=lambda x: x[0], reverse=True)[:self.k]
+    yield (
+      MessageBuilder()
+        .event("dbg")
+        .title("Similarity")
+        .similarity(similarity)
+        .build()
+    )
 
     # Get PQT
     pqt: Tree = get_promising_question_tree(H_TREE, similarity)
+    yield (
+      MessageBuilder()
+        .event("dbg")
+        .title("Promising question tree")
+        .tree(pqt)
+        .build()
+    )
 
     # Compress and find
     async for res in compress_and_find(pqt, oracle, entity):
@@ -114,7 +168,7 @@ class EGIGSOptimized(IGS):
       elif res[1].get("raw") != None:
         yield res[1]["raw"]
       else:
-        yield create_sse_msg("msg", res[1])
+        yield MessageBuilder().event("msg").data(res[1]).build()
 
     # Find in subtree
     subtree: Tree = H_TREE.subtree(u.identifier)
@@ -123,10 +177,22 @@ class EGIGSOptimized(IGS):
       hierarchy=subtree,
       path_tree=decompose(subtree)
     )
+    yield (
+      MessageBuilder()
+        .event("dbg")
+        .title("Search in subtree")
+        .tree(subtree)
+        .build()
+    )
     async for msg in base.search(oracle, entity):
       yield msg
 
-    yield create_sse_msg(
-      "result",
-      { "cost": oracle.get_total_cost(), "target": base.target.identifier }
+    yield (
+      MessageBuilder()
+        .event("res")
+        .data({
+          "cost": oracle.get_total_cost(),
+          "target": base.target.identifier
+        })
+        .build()
     )

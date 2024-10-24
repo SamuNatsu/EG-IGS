@@ -139,9 +139,11 @@ async def target_sensitive_binary_search_ex(
   entity: str
 ) -> AsyncGenerator[Finished | NotFinished, None]:
   batch: int = int(os.getenv("TARGET_SENSITIVE_BATCH"))
-  print(batch)
 
   while left < right:
+    if right - left == 1:
+      break
+
     concepts: list[dict[str, Any]] = []
     i: int = 1
     while True:

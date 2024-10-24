@@ -5,8 +5,9 @@ from .igs import IGS
 from .igs.brute_force import BruteForceIGS
 from .igs.state_of_the_art import StateOfTheArtIGS
 from .igs.ts_igs import TargetSensitiveIGS
-from .igs.eg_igs import EGIGS
-from .igs.eg_igs_optimzed import EGIGSOptimized
+from .igs.eg_igs import ExampleGuidedIGS
+from .igs.ts_igs_optimized import TargetSensitiveIGSOptimized
+from .igs.eg_igs_optimzed import ExampleGuidedIGSOptimized
 
 from .oracles import Oracle
 from .oracles.qwen import QwenOracle
@@ -57,6 +58,7 @@ SUPPORTED_METHODS: dict[str, Callable[[], IGS]] = {
   "brute-force": lambda: BruteForceIGS(),
   "state-of-the-art": lambda: StateOfTheArtIGS(),
   "ts-igs": lambda: TargetSensitiveIGS(),
-  "eg-igs": lambda: EGIGS(),
-  "eg-igs-opt": lambda: EGIGSOptimized()
+  "eg-igs": lambda: ExampleGuidedIGS(),
+  "ts-igs-opt": lambda: TargetSensitiveIGSOptimized(),
+  "eg-igs-opt": lambda: ExampleGuidedIGSOptimized()
 }
