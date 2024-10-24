@@ -138,31 +138,40 @@ async def target_sensitive_binary_search_ex(
   oracle: Oracle,
   entity: str
 ) -> AsyncGenerator[Finished | NotFinished, None]:
-  # TODO
   batch: int = int(os.getenv("TARGET_SENSITIVE_BATCH"))
+  print(batch)
 
-  i: int = 1
-  flag: bool = False
   while left < right:
-    if right - left == 1:
-      break
-
-    nxt: int = min(left + (1 << i) - 1, right - 1)
-    if nxt == right - 1:
-      flag = True
-
-    result, msg = await oracle.ask(entity, path[nxt])
-    yield (False, { "result": result, "msg": msg })
-
-    if result:
+    concepts: list[dict[str, Any]] = []
+    i: int = 1
+    while True:
+      pos: int = min(left + (1 << i) - 1, right - 1)
+      concepts.append({ "pos": pos, "i": i })
       i += 1
-      if flag:
-        left = nxt
-    else:
-      right = nxt
-      left += (1 << (i - 1)) - 1
-      i = 1
+      if pos == right - 1:
+        break
+
+    chunks: list[list[dict[str, Any]]] = []
+    for i in range(0, len(concepts), batch):
+      chunks.append(concepts[i:i + batch])
+
+    flag: bool = True
+    for chunk in chunks:
+      asks: list[str] = list(map(lambda x: path[x["pos"]], chunk))
+      results, msg = await oracle.multi_ask(entity, asks)
+      yield (False, { "msg": msg })
+
+      if all(results):
+        continue
+
+      tmp: dict[str, Any] = chunk[results.index(False)]
+      right = tmp["pos"]
+      left += (1 << (tmp["i"] - 1)) - 1
       flag = False
+      break
+    if flag:
+      yield (True, t.get_node(path[concepts[-1]["pos"]]))
+      return
 
   yield (True, t.get_node(path[left]))
 

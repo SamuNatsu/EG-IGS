@@ -1,19 +1,19 @@
 from . import IGS, H_TREE, P_TREE
 from ..oracles import Oracle
-from ..utils.message import create_sse_msg
+from ..utils.message import MessageBuilder
 from ..utils.tree import binary_search, find_next
 
 from typing import AsyncGenerator, Self
 
 
 # IGS
-class IGSStateOfTheArt(IGS):
+class StateOfTheArtIGS(IGS):
   async def search(
     self: Self,
     oracle: Oracle,
     entity: str
   ) -> AsyncGenerator[str, None]:
-    yield create_sse_msg("desc", entity)
+    yield MessageBuilder().event("desc").data(entity).build()
 
     # Get initial path
     for v in P_TREE.all_nodes_itr():
@@ -24,26 +24,44 @@ class IGSStateOfTheArt(IGS):
     while True:
       # The path only contains one node
       if len(path) == 1:
-        yield create_sse_msg(
-          "result",
-          { "cost": oracle.get_total_cost(), "target": path[0] }
+        yield (
+          MessageBuilder()
+            .event("res")
+            .data({ "cost": oracle.get_total_cost(), "target": path[0] })
+            .build()
         )
         break
 
       # Binary search deepest YES
+      yield (
+        MessageBuilder()
+          .event("dbg")
+          .title("Binary search")
+          .path(path)
+          .build()
+      )
       async for res1 in binary_search(H_TREE, path, 1, len(path), oracle, entity):
         if res1[0]: # Finished
           # Find next YES
           flag: bool = False
+          yield (
+            MessageBuilder()
+              .event("dbg")
+              .title("Find next")
+              .children(H_TREE, res1[1])
+              .build()
+          )
           async for res2 in find_next(H_TREE, res1[1], oracle, entity, ignore=path):
             if res2[0]: # Finished
               if res2[1] == None: # Not found next node
-                yield create_sse_msg(
-                  "result",
-                  {
-                    "cost": oracle.get_total_cost(),
-                    "target": res1[1].identifier
-                  }
+                yield (
+                  MessageBuilder()
+                    .event("res")
+                    .data({
+                      "cost": oracle.get_total_cost(),
+                      "target": res1[1].identifier
+                    })
+                    .build()
                 )
                 return
               else:               # Found next node
@@ -54,10 +72,10 @@ class IGSStateOfTheArt(IGS):
                 flag = True
                 break
             else:       # Not finished
-              yield create_sse_msg("msg", res2[1])
+              yield MessageBuilder().event("msg").data(res2[1]).build()
 
           # Has new path
           if flag:
             break
         else:       # Not finished
-          yield create_sse_msg("msg", res1[1])
+          yield MessageBuilder().event("msg").data(res1[1]).build()

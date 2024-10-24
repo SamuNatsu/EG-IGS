@@ -19,7 +19,7 @@ DOI 10.1109/ICDE60146.2024.00033
 
 1. Python version >= 3.12
 2. Any python package manager that support `pyproject.toml` as dependency file
-3. Please manually install `en-core-web-md` package from Spacy for NLP procedure
+3. Please manually install `en_core_web_md` package (~31MB) from [spaCy](https://spacy.io/models/en) for NLP procedure
 
 ## Usage
 

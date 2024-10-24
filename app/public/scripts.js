@@ -4,6 +4,28 @@ const htmlToNode = (html) => {
   return tmp.content.firstChild;
 };
 
+const renderDescription = (desc) =>
+  htmlToNode(
+    `<details><summary>Product Description</summary>${desc}</details>`
+  );
+const renderDebug = (title, content) =>
+  htmlToNode(
+    `<details><summary style="color:blue">ℹ️ ${title}</summary>${content}</details>`
+  );
+const renderMessage = (result, title, content) =>
+  htmlToNode(
+    `<details><summary style="color:${
+      typeof result === 'boolean' ? (result ? 'green' : 'red') : 'orange'
+    }">🤖 ${title}</summary>${content}</details>`
+  );
+const renderResult = (cost, target) =>
+  htmlToNode(
+    `<p><b>Costs:</b> ${cost}<br /><b>Target concept:</b> ${target.replaceAll(
+      '-',
+      ' » '
+    )}</p>`
+  );
+
 document.querySelector('#search').addEventListener('submit', function (ev) {
   ev.preventDefault();
 
@@ -22,36 +44,24 @@ document.querySelector('#search').addEventListener('submit', function (ev) {
 
   const sse = new EventSource(url);
   sse.addEventListener('desc', (ev) => {
-    const desc = JSON.parse(ev.data);
-
-    const el = htmlToNode(
-      `<details><summary>Product Description</summary>${desc}</details>`
-    );
-    rEl.append(el, htmlToNode('<hr />'));
+    const { content } = JSON.parse(ev.data);
+    rEl.append(renderDescription(content), htmlToNode('<hr />'));
+  });
+  sse.addEventListener('dbg', (ev) => {
+    const { title, content } = JSON.parse(ev.data);
+    rEl.append(renderDebug(title, content));
   });
   sse.addEventListener('msg', (ev) => {
-    const { result, msg } = JSON.parse(ev.data);
-    const [q, a] = msg.split('\n');
-
-    const el = htmlToNode(
-      `<details><summary style="color:${
-        typeof result === 'boolean' ? (result ? 'green' : 'red') : 'orange'
-      }">${q}</summary>${a}</details>`
-    );
-    rEl.append(el);
+    const { content } = JSON.parse(ev.data);
+    const [question, answer] = content.msg.split('\n');
+    rEl.append(renderMessage(content.result, question, answer));
   });
-  sse.addEventListener('result', (ev) => {
-    const { cost, target } = JSON.parse(ev.data);
-
-    rEl.append(htmlToNode('<hr />'));
-    const el = htmlToNode(
-      `<p><b>Costs:</b> ${cost}<br /><b>Target concept:</b> ${target.replaceAll(
-        '-',
-        ' » '
-      )}</p>`
+  sse.addEventListener('res', (ev) => {
+    const { content } = JSON.parse(ev.data);
+    rEl.append(
+      htmlToNode('<hr />'),
+      renderResult(content.cost, content.target)
     );
-    rEl.append(el);
-
     sse.close();
   });
   sse.addEventListener('err', (ev) => {

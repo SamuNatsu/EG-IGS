@@ -1,6 +1,6 @@
 from . import IGS, H_TREE
 from ..oracles import Oracle
-from ..utils.message import create_sse_msg
+from ..utils.message import MessageBuilder
 from ..utils.tree import find_next
 
 from treelib import Node, Tree
@@ -8,7 +8,7 @@ from typing import AsyncGenerator, Self
 
 
 # IGS
-class IGSBruteForce(IGS):
+class BruteForceIGS(IGS):
   def __init__(
     self: Self,
     *,
@@ -25,11 +25,18 @@ class IGSBruteForce(IGS):
     entity: str
   ) -> AsyncGenerator[str, None]:
     if not self.as_module:
-      yield create_sse_msg("desc", entity)
+      yield MessageBuilder().event("desc").data(entity).build()
 
     u: Node = self.hierarchy.get_node(self.hierarchy.root)
     flag: bool = True
     while flag:
+      yield (
+        MessageBuilder()
+          .event("dbg")
+          .title("Find next")
+          .children(self.hierarchy, u)
+          .build()
+      )
       async for res in find_next(self.hierarchy, u, oracle, entity):
         if res[0]: # Finished
           if res[1] == None: # Not found next node
@@ -38,12 +45,14 @@ class IGSBruteForce(IGS):
             u = res[1]
           break
         else:      # Not finished
-          yield create_sse_msg("msg", res[1])
+          yield MessageBuilder().event("msg").data(res[1]).build()
 
     if self.as_module:
       self.target = u
     else:
-      yield create_sse_msg(
-        "result",
-        { "cost": oracle.get_total_cost(), "target": u.identifier }
+      yield (
+        MessageBuilder()
+          .event("res")
+          .data({ "cost": oracle.get_total_cost(), "target": u.identifier })
+          .build()
       )

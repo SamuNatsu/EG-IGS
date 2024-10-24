@@ -79,7 +79,7 @@ class ChatGPTOracle(Oracle):
     if len(ask) == 0:
       return (
         ret,
-        f"Is it an item in category {", ".join(concepts)}? [Full Cached Answer]\n{", ".join(ret)}"
+        f"Is it an item in category {", ".join(concepts)}? [Full Cached Answer]\n{", ".join(map(str, ret))}"
       )
     self.cost += 1
 

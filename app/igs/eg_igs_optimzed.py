@@ -1,8 +1,8 @@
 import os
 
 from . import H_TREE, IGS
-from .brute_force import IGSBruteForce
-from .ts_igs import TSIGS
+from .brute_force import BruteForceIGS
+from .ts_igs_optimized import TargetSensitiveIGSOptimized
 from ..oracles import Oracle
 from ..utils.data import DOC_MAP, NLP, get_list_of_words
 from ..utils.message import create_sse_msg
@@ -31,7 +31,7 @@ async def compress_and_find(
   cpqt: Tree = compress_promising_question_tree(pqt)
 
   # Step 2
-  base: IGSBruteForce = IGSBruteForce(as_module=True, hierarchy=cpqt)
+  base: BruteForceIGS = BruteForceIGS(as_module=True, hierarchy=cpqt)
   async for msg in base.search(oracle, entity):
     yield (False, { "raw": msg })
   u_cap: Node = base.target
@@ -118,7 +118,7 @@ class EGIGSOptimized(IGS):
 
     # Find in subtree
     subtree: Tree = H_TREE.subtree(u.identifier)
-    base: TSIGS = TSIGS(
+    base: TargetSensitiveIGSOptimized = TargetSensitiveIGSOptimized(
       as_module=True,
       hierarchy=subtree,
       path_tree=decompose(subtree)

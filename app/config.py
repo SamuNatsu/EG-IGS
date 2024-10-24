@@ -2,9 +2,9 @@ import dotenv
 import os
 
 from .igs import IGS
-from .igs.brute_force import IGSBruteForce
-from .igs.state_of_the_art import IGSStateOfTheArt
-from .igs.ts_igs import TSIGS
+from .igs.brute_force import BruteForceIGS
+from .igs.state_of_the_art import StateOfTheArtIGS
+from .igs.ts_igs import TargetSensitiveIGS
 from .igs.eg_igs import EGIGS
 from .igs.eg_igs_optimzed import EGIGSOptimized
 
@@ -54,9 +54,9 @@ SUPPORTED_MODELS: dict[str, Callable[[], Oracle]] = {
 
 # Supported methods
 SUPPORTED_METHODS: dict[str, Callable[[], IGS]] = {
-  "brute-force": lambda: IGSBruteForce(),
-  "state-of-the-art": lambda: IGSStateOfTheArt(),
-  "ts-igs": lambda: TSIGS(),
+  "brute-force": lambda: BruteForceIGS(),
+  "state-of-the-art": lambda: StateOfTheArtIGS(),
+  "ts-igs": lambda: TargetSensitiveIGS(),
   "eg-igs": lambda: EGIGS(),
   "eg-igs-opt": lambda: EGIGSOptimized()
 }
