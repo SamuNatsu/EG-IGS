@@ -10,9 +10,7 @@ class Oracle(ABC):
 
   @abstractmethod
   async def multi_ask(
-    self: Self,
-    entity: str,
-    concepts: list[str]
+    self: Self, entity: str, concepts: list[str]
   ) -> tuple[list[bool], str]:
     raise NotImplementedError()
 

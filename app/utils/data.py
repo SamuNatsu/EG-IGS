@@ -21,6 +21,7 @@ STAMMER: PorterStemmer = PorterStemmer()
 NLP: Language = spacy.load("en_core_web_md")
 DOC_MAP: dict[str, Doc] = dict([(k, NLP(v)) for k, v in E_MAP.items()])
 
+
 # Functions
 def get_list_of_words(str: str) -> list[str]:
   step1: map = map(lambda x: x.lower(), str.split())

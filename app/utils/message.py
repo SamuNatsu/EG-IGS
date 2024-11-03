@@ -27,15 +27,13 @@ class MessageBuilder:
     return self
 
   def children(self: Self, tree: Tree, parent: Node) -> Self:
-    self._content = (
-      "<br/>".join(map(lambda x: x.identifier,tree.children(parent.identifier)))
+    self._content = "<br/>".join(
+      map(lambda x: x.identifier, tree.children(parent.identifier))
     )
     return self
-  
+
   def similarity(self: Self, similarity: list[tuple[float, str]]) -> Self:
-    self._content = (
-      "<br/>".join(map(lambda x: f"<b>{x[0]}</b> {x[1]}", similarity))
-    )
+    self._content = "<br/>".join(map(lambda x: f"<b>{x[0]}</b> {x[1]}", similarity))
     return self
 
   def tree(self: Self, tree: Tree) -> Self:
@@ -45,7 +43,7 @@ class MessageBuilder:
   def build(self: Self) -> str:
     assert self._event is not None and self._content is not None
 
-    packet: dict[str, Any] = { "content": self._content }
+    packet: dict[str, Any] = {"content": self._content}
     if self._title is not None:
       packet["title"] = self._title
 

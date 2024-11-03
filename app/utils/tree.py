@@ -7,8 +7,9 @@ from typing import Any, AsyncGenerator, Literal
 
 
 # Types
-type Finished    = tuple[Literal[True], Node | None]
+type Finished = tuple[Literal[True], Node | None]
 type NotFinished = tuple[Literal[False], dict[str, Any]]
+
 
 # Functions
 def decompose(t: Tree) -> Tree:
@@ -56,20 +57,21 @@ def decompose(t: Tree) -> Tree:
 
   return p
 
+
 async def find_next(
   t: Tree,
   u: Node,
   oracle: Oracle,
   entity: str,
   ignore: list[str] | None = None,
-  children: list[Node] | None = None
+  children: list[Node] | None = None,
 ) -> AsyncGenerator[Finished | NotFinished, None]:
   for v in children or t.children(u.identifier):
     if ignore is not None and v.identifier in ignore:
       continue
 
     res, msg = await oracle.ask(entity, v.identifier)
-    yield (False, { "result": res, "msg": msg })
+    yield (False, {"result": res, "msg": msg})
 
     if res:
       yield (True, v)
@@ -77,18 +79,14 @@ async def find_next(
 
   yield (True, None)
 
+
 async def binary_search(
-  t: Tree,
-  path: list[str],
-  left: int,
-  right: int,
-  oracle: Oracle,
-  entity: str
+  t: Tree, path: list[str], left: int, right: int, oracle: Oracle, entity: str
 ) -> AsyncGenerator[Finished | NotFinished, None]:
   while left < right:
     mid: int = (left + right) >> 1
     result, msg = await oracle.ask(entity, path[mid])
-    yield (False, { "result": result, "msg": msg })
+    yield (False, {"result": result, "msg": msg})
 
     if result:
       left = mid + 1
@@ -97,13 +95,9 @@ async def binary_search(
 
   yield (True, t.get_node(path[left - 1]))
 
+
 async def target_sensitive_binary_search(
-  t: Tree,
-  path: list[str],
-  left: int,
-  right: int,
-  oracle: Oracle,
-  entity: str
+  t: Tree, path: list[str], left: int, right: int, oracle: Oracle, entity: str
 ) -> AsyncGenerator[Finished | NotFinished, None]:
   i: int = 1
   flag: bool = False
@@ -116,7 +110,7 @@ async def target_sensitive_binary_search(
       flag = True
 
     result, msg = await oracle.ask(entity, path[nxt])
-    yield (False, { "result": result, "msg": msg })
+    yield (False, {"result": result, "msg": msg})
 
     if result:
       i += 1
@@ -130,13 +124,9 @@ async def target_sensitive_binary_search(
 
   yield (True, t.get_node(path[left]))
 
+
 async def target_sensitive_binary_search_ex(
-  t: Tree,
-  path: list[str],
-  left: int,
-  right: int,
-  oracle: Oracle,
-  entity: str
+  t: Tree, path: list[str], left: int, right: int, oracle: Oracle, entity: str
 ) -> AsyncGenerator[Finished | NotFinished, None]:
   batch: int = int(os.getenv("TARGET_SENSITIVE_BATCH"))
 
@@ -148,20 +138,20 @@ async def target_sensitive_binary_search_ex(
     i: int = 1
     while True:
       pos: int = min(left + (1 << i) - 1, right - 1)
-      concepts.append({ "pos": pos, "i": i })
+      concepts.append({"pos": pos, "i": i})
       i += 1
       if pos == right - 1:
         break
 
     chunks: list[list[dict[str, Any]]] = []
     for i in range(0, len(concepts), batch):
-      chunks.append(concepts[i:i + batch])
+      chunks.append(concepts[i : i + batch])
 
     flag: bool = True
     for chunk in chunks:
       asks: list[str] = list(map(lambda x: path[x["pos"]], chunk))
       results, msg = await oracle.multi_ask(entity, asks)
-      yield (False, { "msg": msg })
+      yield (False, {"msg": msg})
 
       if all(results):
         continue
@@ -177,10 +167,8 @@ async def target_sensitive_binary_search_ex(
 
   yield (True, t.get_node(path[left]))
 
-def get_promising_question_tree(
-  t: Tree,
-  examples: list[tuple[float, str]]
-) -> Tree:
+
+def get_promising_question_tree(t: Tree, examples: list[tuple[float, str]]) -> Tree:
   pqt: Tree = Tree()
   pqt.create_node(identifier=t.root, data=0)
 
@@ -203,6 +191,7 @@ def get_promising_question_tree(
       pqt.create_node(identifier=x, parent=p.identifier, data=similarity)
 
   return pqt
+
 
 def compress_promising_question_tree(pqt: Tree) -> Tree:
   cpqt: Tree = Tree(pqt, deep=True)

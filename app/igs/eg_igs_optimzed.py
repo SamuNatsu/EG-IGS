@@ -13,7 +13,7 @@ from ..utils.tree import (
   decompose,
   find_next,
   get_promising_question_tree,
-  target_sensitive_binary_search_ex
+  target_sensitive_binary_search_ex,
 )
 
 from spacy.tokens.doc import Doc
@@ -23,9 +23,7 @@ from typing import AsyncGenerator, Self
 
 # Utils
 async def compress_and_find(
-  pqt: Tree,
-  oracle: Oracle,
-  entity: str
+  pqt: Tree, oracle: Oracle, entity: str
 ) -> AsyncGenerator[Finished | NotFinished, None]:
   # Step 1
   cpqt: Tree = compress_promising_question_tree(pqt)
@@ -33,17 +31,17 @@ async def compress_and_find(
     False,
     {
       "raw": MessageBuilder()
-        .event("dbg")
-        .title("Compressed promising question tree")
-        .tree(cpqt)
-        .build()
-    }
+      .event("dbg")
+      .title("Compressed promising question tree")
+      .tree(cpqt)
+      .build()
+    },
   )
 
   # Step 2
   base: BruteForceIGS = BruteForceIGS(as_module=True, hierarchy=cpqt)
   async for msg in base.search(oracle, entity):
-    yield (False, { "raw": msg })
+    yield (False, {"raw": msg})
   u_cap: Node = base.target
 
   # Step 3
@@ -54,28 +52,26 @@ async def compress_and_find(
     False,
     {
       "raw": MessageBuilder()
-        .event("dbg")
-        .title("Found u-cap")
-        .data(u_cap.identifier)
-        .build()
-    }
+      .event("dbg")
+      .title("Found u-cap")
+      .data(u_cap.identifier)
+      .build()
+    },
   )
 
   # Step 4
   children: list[Node] = sorted(
-    pqt.children(u_cap.identifier),
-    key=lambda x: x.data,
-    reverse=True
+    pqt.children(u_cap.identifier), key=lambda x: x.data, reverse=True
   )
   yield (
     False,
     {
       "raw": MessageBuilder()
-        .event("dbg")
-        .title("Find next")
-        .children(pqt, u_cap)
-        .build()
-    }
+      .event("dbg")
+      .title("Find next")
+      .children(pqt, u_cap)
+      .build()
+    },
   )
   async for res in find_next(pqt, u_cap, oracle, entity, children=children):
     if res[0]:
@@ -107,18 +103,21 @@ async def compress_and_find(
     False,
     {
       "raw": MessageBuilder()
-        .event("dbg")
-        .title("Target sensitive binary search")
-        .path(path)
-        .build()
-    }
+      .event("dbg")
+      .title("Target sensitive binary search")
+      .path(path)
+      .build()
+    },
   )
-  async for res in target_sensitive_binary_search_ex(pqt, path, 0, len(path), oracle, entity):
+  async for res in target_sensitive_binary_search_ex(
+    pqt, path, 0, len(path), oracle, entity
+  ):
     if res[0]:
       yield (True, res[1])
       break
     else:
       yield (False, res[1])
+
 
 # IGS
 class ExampleGuidedIGSOptimized(IGS):
@@ -127,9 +126,7 @@ class ExampleGuidedIGSOptimized(IGS):
     self.k = int(os.getenv("EG_IGS_K"))
 
   async def search(
-    self: Self,
-    oracle: Oracle,
-    entity: str
+    self: Self, oracle: Oracle, entity: str
   ) -> AsyncGenerator[str, None]:
     yield MessageBuilder().event("desc").data(entity).build()
 
@@ -142,23 +139,15 @@ class ExampleGuidedIGSOptimized(IGS):
       x: float = desc_nlp.similarity(v)
       if x > self.tau:
         similarity.append((x, k))
-    similarity = sorted(similarity, key=lambda x: x[0], reverse=True)[:self.k]
+    similarity = sorted(similarity, key=lambda x: x[0], reverse=True)[: self.k]
     yield (
-      MessageBuilder()
-        .event("dbg")
-        .title("Similarity")
-        .similarity(similarity)
-        .build()
+      MessageBuilder().event("dbg").title("Similarity").similarity(similarity).build()
     )
 
     # Get PQT
     pqt: Tree = get_promising_question_tree(H_TREE, similarity)
     yield (
-      MessageBuilder()
-        .event("dbg")
-        .title("Promising question tree")
-        .tree(pqt)
-        .build()
+      MessageBuilder().event("dbg").title("Promising question tree").tree(pqt).build()
     )
 
     # Compress and find
@@ -173,26 +162,17 @@ class ExampleGuidedIGSOptimized(IGS):
     # Find in subtree
     subtree: Tree = H_TREE.subtree(u.identifier)
     base: TargetSensitiveIGSOptimized = TargetSensitiveIGSOptimized(
-      as_module=True,
-      hierarchy=subtree,
-      path_tree=decompose(subtree)
+      as_module=True, hierarchy=subtree, path_tree=decompose(subtree)
     )
     yield (
-      MessageBuilder()
-        .event("dbg")
-        .title("Search in subtree")
-        .tree(subtree)
-        .build()
+      MessageBuilder().event("dbg").title("Search in subtree").tree(subtree).build()
     )
     async for msg in base.search(oracle, entity):
       yield msg
 
     yield (
       MessageBuilder()
-        .event("res")
-        .data({
-          "cost": oracle.get_total_cost(),
-          "target": base.target.identifier
-        })
-        .build()
+      .event("res")
+      .data({"cost": oracle.get_total_cost(), "target": base.target.identifier})
+      .build()
     )

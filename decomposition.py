@@ -9,7 +9,7 @@ DATASET: str = "amazon"
 T: Tree = pickle.load(open(f"./app/data/{DATASET}_hierarchy", "rb"))
 
 # Main entry
-if __name__ == '__main__':
+if __name__ == "__main__":
   p: Tree = decompose(T)
 
   # Export decomposed path tree

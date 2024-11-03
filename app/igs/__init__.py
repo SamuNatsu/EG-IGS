@@ -13,12 +13,11 @@ H_TREE: Tree = pickle.load(open(DATA_PATH / "amazon_hierarchy", "rb"))
 P_TREE: Tree = pickle.load(open(DATA_PATH / "amazon_path_tree", "rb"))
 E_MAP: dict[str, str] = pickle.load(open(DATA_PATH / "amazon_pre_mined", "rb"))
 
+
 # Interfaces
 class IGS(ABC):
   @abstractmethod
   async def search(
-    self: Self,
-    oracle: Oracle,
-    entity: str
+    self: Self, oracle: Oracle, entity: str
   ) -> AsyncGenerator[str, None]:
     raise NotImplementedError()

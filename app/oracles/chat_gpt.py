@@ -10,6 +10,7 @@ from typing import Self
 # Logger
 logger: logging.Logger = logging.getLogger("uvicorn.error")
 
+
 # Oracle
 class ChatGPTOracle(Oracle):
   def __init__(self: Self, *, api_key: str, model: str):
@@ -22,12 +23,13 @@ class ChatGPTOracle(Oracle):
     logger.info(f"[ChatGPT:{self.model}] Ask: concept={concept}")
 
     if concept in self.cache:
-      return (self.cache[concept], f"Is it an item in category {concept}? [Cached Answer]\n[Please see before]")
+      return (
+        self.cache[concept],
+        f"Is it an item in category {concept}? [Cached Answer]\n[Please see before]",
+      )
     self.cost += 1
 
-    msg: str = (
-      f"{entity}. Based on the description above, is it an item in category {concept}? Please start with \"Yes\" or \"No\" to answer the question, then follows your reason."
-    )
+    msg: str = f'{entity}. Based on the description above, is it an item in category {concept}? Please start with "Yes" or "No" to answer the question, then follows your reason.'
     failed: int = 0
     while True:
       try:
@@ -36,12 +38,9 @@ class ChatGPTOracle(Oracle):
           messages=[
             {
               "role": "system",
-              "content": "You are a helpful assistant. You should respond to the user in English."
+              "content": "You are a helpful assistant. You should respond to the user in English.",
             },
-            {
-              "role": "user",
-              "content": msg
-            }
+            {"role": "user", "content": msg},
           ],
         )
         break
@@ -59,13 +58,9 @@ class ChatGPTOracle(Oracle):
     return (result, f"Is it an item in category {concept}?\n{reply}")
 
   async def multi_ask(
-    self: Self,
-    entity: str,
-    concepts: list[str]
+    self: Self, entity: str, concepts: list[str]
   ) -> tuple[list[bool], str]:
-    logger.info(
-      f"[ChatGPT:{self.model}] Multi Ask: concepts={", ".join(concepts)}"
-    )
+    logger.info(f"[ChatGPT:{self.model}] Multi Ask: concepts={", ".join(concepts)}")
 
     ret: list[bool | None] = [None] * len(concepts)
     ask: list[str] = []
@@ -79,13 +74,11 @@ class ChatGPTOracle(Oracle):
     if len(ask) == 0:
       return (
         ret,
-        f"Is it an item in category {", ".join(concepts)}? [Full Cached Answer]\n{", ".join(map(str, ret))}"
+        f"Is it an item in category {", ".join(concepts)}? [Full Cached Answer]\n{", ".join(map(str, ret))}",
       )
     self.cost += 1
 
-    msg: str = (
-      f"{entity}. Based on the description above, is it an item in category {", ".join(map(lambda x: f"\"{x}\"", ask))} respectively? Please output the answer of each category with a \"Yes\" or \"No\", split them with a line break."
-    )
+    msg: str = f"{entity}. Based on the description above, is it an item in category {", ".join(map(lambda x: f"\"{x}\"", ask))} respectively? Please output the answer of each category with a \"Yes\" or \"No\", split them with a line break."
     failed: int = 0
     while True:
       try:
@@ -94,12 +87,9 @@ class ChatGPTOracle(Oracle):
           messages=[
             {
               "role": "system",
-              "content": "You are a helpful assistant. You should respond to the user in English."
+              "content": "You are a helpful assistant. You should respond to the user in English.",
             },
-            {
-              "role": "user",
-              "content": msg
-            }
+            {"role": "user", "content": msg},
           ],
         )
         break
@@ -118,7 +108,7 @@ class ChatGPTOracle(Oracle):
 
     return (
       ret,
-      f"Is it an item in category {", ".join(concepts)}?{"" if len(ask) == len(concepts) else " [Partial Cached Answer]"}\n{", ".join(map(str, ret))}"
+      f"Is it an item in category {", ".join(concepts)}?{"" if len(ask) == len(concepts) else " [Partial Cached Answer]"}\n{", ".join(map(str, ret))}",
     )
 
   def get_total_cost(self: Self):

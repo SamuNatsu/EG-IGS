@@ -7,8 +7,9 @@ from bs4 import BeautifulSoup, ResultSet, Tag
 # Logger
 logger: logging.Logger = logging.getLogger("uvicorn.error")
 
+
 # Extractors
-def extract_desc_1(soup: BeautifulSoup) -> str | None:      # Extractor for general
+def extract_desc_1(soup: BeautifulSoup) -> str | None:  # Extractor for general
   KEYWORDS: list[str] = ["Product description", "About this item"]
 
   text: str = soup.get_text()
@@ -21,7 +22,8 @@ def extract_desc_1(soup: BeautifulSoup) -> str | None:      # Extractor for gene
         return line.strip()
   return None
 
-def extract_desc_2(soup: BeautifulSoup) -> str | None:       # Extractor for clothing
+
+def extract_desc_2(soup: BeautifulSoup) -> str | None:  # Extractor for clothing
   CLOTHING_SELECTOR: str = "#productFactsDesktopExpander :first-child"
 
   tag: ResultSet[Tag] = soup.select(CLOTHING_SELECTOR, limit=1)
@@ -33,7 +35,8 @@ def extract_desc_2(soup: BeautifulSoup) -> str | None:       # Extractor for clo
   text = text[pos:].replace("\n", "").strip()
   return text if len(text) > 50 else None
 
-def extract_desc_3(soup: BeautifulSoup) -> str | None:      # Extractor for books
+
+def extract_desc_3(soup: BeautifulSoup) -> str | None:  # Extractor for books
   BOOK_SELECTOR: str = "#bookDescription_feature_div"
 
   tag: ResultSet[Tag] = soup.select(BOOK_SELECTOR, limit=1)
@@ -42,6 +45,7 @@ def extract_desc_3(soup: BeautifulSoup) -> str | None:      # Extractor for book
 
   text: str = tag[0].get_text()[:2000]
   return text if len(text) > 50 else None
+
 
 # Fetchers
 async def fetch_desc(url: str) -> str | None:
@@ -54,11 +58,7 @@ async def fetch_desc(url: str) -> str | None:
       async with s.get(url, headers=HEADERS, allow_redirects=True) as r:
         html: str = await r.text()
         soup: BeautifulSoup = BeautifulSoup(html, "html.parser")
-        return (
-          extract_desc_1(soup) or
-          extract_desc_2(soup) or
-          extract_desc_3(soup)
-        )
+        return extract_desc_1(soup) or extract_desc_2(soup) or extract_desc_3(soup)
   except Exception as e:
     logger.error(e)
     return None

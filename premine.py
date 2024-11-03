@@ -7,7 +7,8 @@ from bs4 import BeautifulSoup, ResultSet, Tag
 from random import sample
 from treelib import Node, Tree
 from typing import Any, Coroutine
-from utils import HEADERS, fetch_amazon_description, get_list_of_words
+from app.utils.amazon import fetch_desc
+from app.utils.data import get_list_of_words
 
 
 # Constants
@@ -16,7 +17,11 @@ T: Tree = pickle.load(open(f"./data/{DATASET}_hierarchy", "rb"))
 
 EXAMPLE_COUNT: int = 400
 
-ITEM_SELECTOR: str = ".s-result-list > div:not([data-asin=\"\"])"
+ITEM_SELECTOR: str = '.s-result-list > div:not([data-asin=""])'
+HEADERS: dict[str, str] = {
+  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+}
+
 
 # Async main
 async def main():
@@ -40,7 +45,7 @@ async def main():
 
   async def get_amazon_words(keywords: str) -> list[str]:
     url: str = await search_amazon(keywords)
-    desc: str = await fetch_amazon_description(url)
+    desc: str = await fetch_desc(url)
     return get_list_of_words(desc)
 
   def get_concept(leaf: Node) -> str:
@@ -50,6 +55,7 @@ async def main():
   # Mine descriptions
   data: dict[str, list[str]] = {}
   failed: set[str] = set()
+
   async def fetch_task(example: Node) -> None:
     concept: str = get_concept(example)
     retry_cnt: int = 0
@@ -85,6 +91,7 @@ async def main():
 
   pickle.dump(data, open(f"./{DATASET}_pre_mined", "wb"))
 
+
 # Main entry
-if __name__ == '__main__':
+if __name__ == "__main__":
   asyncio.run(main())

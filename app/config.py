@@ -22,35 +22,20 @@ dotenv.load_dotenv()
 # Supported models
 SUPPORTED_MODELS: dict[str, Callable[[], Oracle]] = {
   "qwen-turbo": (
-    lambda: QwenOracle(
-      api_key=os.getenv("QWEN_API_KEY"),
-      model="qwen-turbo"
-    )
+    lambda: QwenOracle(api_key=os.getenv("QWEN_API_KEY"), model="qwen-turbo")
   ),
   "qwen-plus": (
-    lambda: QwenOracle(
-      api_key=os.getenv("QWEN_API_KEY"),
-      model="qwen-plus"
-    )
+    lambda: QwenOracle(api_key=os.getenv("QWEN_API_KEY"), model="qwen-plus")
   ),
   "gpt-3.5-turbo": (
-    lambda: ChatGPTOracle(
-      api_key=os.getenv("OPENAI_API_KEY"),
-      model="gpt-3.5-turbo"
-    )
+    lambda: ChatGPTOracle(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-3.5-turbo")
   ),
   "gpt-4o-mini": (
-    lambda: ChatGPTOracle(
-      api_key=os.getenv("OPENAI_API_KEY"),
-      model="gpt-4o-mini"
-    )
+    lambda: ChatGPTOracle(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o-mini")
   ),
   "gpt-4o": (
-    lambda: ChatGPTOracle(
-      api_key=os.getenv("OPENAI_API_KEY"),
-      model="gpt-4o"
-    )
-  )
+    lambda: ChatGPTOracle(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o")
+  ),
 }
 
 # Supported methods
@@ -60,5 +45,5 @@ SUPPORTED_METHODS: dict[str, Callable[[], IGS]] = {
   "ts-igs": lambda: TargetSensitiveIGS(),
   "eg-igs": lambda: ExampleGuidedIGS(),
   "ts-igs-opt": lambda: TargetSensitiveIGSOptimized(),
-  "eg-igs-opt": lambda: ExampleGuidedIGSOptimized()
+  "eg-igs-opt": lambda: ExampleGuidedIGSOptimized(),
 }
