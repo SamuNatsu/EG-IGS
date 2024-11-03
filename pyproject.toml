@@ -14,3 +14,8 @@ dependencies = [
     "spacy>=3.8.2",
     "treelib>=1.7.0",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.7.2",
+]

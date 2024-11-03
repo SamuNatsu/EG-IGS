@@ -70,7 +70,7 @@ class TargetSensitiveIGSOptimized(IGS):
           )
           async for res2 in find_next(self.hierarchy, res1[1], oracle, entity):
             if res2[0]: # Finished
-              if res2[1] == None: # Not found next node
+              if res2[1] is None: # Not found next node
                 if self.as_module:
                   self.target = res1[1]
                 else:

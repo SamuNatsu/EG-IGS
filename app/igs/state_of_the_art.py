@@ -53,7 +53,7 @@ class StateOfTheArtIGS(IGS):
           )
           async for res2 in find_next(H_TREE, res1[1], oracle, entity, ignore=path):
             if res2[0]: # Finished
-              if res2[1] == None: # Not found next node
+              if res2[1] is None: # Not found next node
                 yield (
                   MessageBuilder()
                     .event("res")

@@ -58,7 +58,7 @@ async def main():
         result: list[str] = await get_amazon_words(concept)
         data[example.identifier] = " ".join(result)
         break
-      except:
+      except Exception as _:
         retry_cnt += 1
         if retry_cnt > 5:
           failed.add(example)

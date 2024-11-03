@@ -65,7 +65,7 @@ async def find_next(
   children: list[Node] | None = None
 ) -> AsyncGenerator[Finished | NotFinished, None]:
   for v in children or t.children(u.identifier):
-    if ignore != None and v.identifier in ignore:
+    if ignore is not None and v.identifier in ignore:
       continue
 
     res, msg = await oracle.ask(entity, v.identifier)

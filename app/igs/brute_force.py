@@ -39,7 +39,7 @@ class BruteForceIGS(IGS):
       )
       async for res in find_next(self.hierarchy, u, oracle, entity):
         if res[0]: # Finished
-          if res[1] == None: # Not found next node
+          if res[1] is None: # Not found next node
             flag = False
           else:              # Found next node
             u = res[1]

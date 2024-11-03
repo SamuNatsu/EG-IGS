@@ -29,7 +29,7 @@ async def start_IGS(model: str, method: str, link: str) -> StreamingResponse:
 
   # Try fetch description
   desc: str | None = await fetch_desc(link)
-  if desc == None:
+  if desc is None:
     def no_desc() -> Generator[str, None, None]:
       yield (
         MessageBuilder()

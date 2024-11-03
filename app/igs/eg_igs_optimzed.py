@@ -79,7 +79,7 @@ async def compress_and_find(
   )
   async for res in find_next(pqt, u_cap, oracle, entity, children=children):
     if res[0]:
-      if res[1] == None:
+      if res[1] is None:
         yield (True, u_cap)
         return
       else:
@@ -165,7 +165,7 @@ class ExampleGuidedIGSOptimized(IGS):
     async for res in compress_and_find(pqt, oracle, entity):
       if res[0]:
         u: Node = res[1]
-      elif res[1].get("raw") != None:
+      elif res[1].get("raw") is not None:
         yield res[1]["raw"]
       else:
         yield MessageBuilder().event("msg").data(res[1]).build()

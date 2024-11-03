@@ -43,10 +43,10 @@ class MessageBuilder:
     return self
 
   def build(self: Self) -> str:
-    assert self._event != None and self._content != None
+    assert self._event is not None and self._content is not None
 
     packet: dict[str, Any] = { "content": self._content }
-    if self._title != None:
+    if self._title is not None:
       packet["title"] = self._title
 
     return f"event: {self._event}\ndata: {json.dumps(packet)}\n\n"
